@@ -71,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
         CowboyUtils.inchesToMeters(getRightDistanceInch()));
 
     AutoBuilder.configureRamsete(this::getRobotPose, this::resetOdometry, this::getChassisSpeeds,
-        this::driveChassisSpeeds, 0, 1,
+        this::driveChassisSpeeds, 0.55, 1,
         new ReplanningConfig(false, false),
         () -> false, this);
 
