@@ -60,7 +60,7 @@ public class RobotContainer {
     // AutonomousDistance(m_drivetrain));
     // m_chooser.addOption("Auto Routine Time", new
     // AutonomousDistance(m_drivetrain));
-    m_autoChooser = AutoBuilder.buildAutoChooser();
+    m_autoChooser = AutoBuilder.buildAutoChooser("Test Auto");
     m_autoChooser.addOption("ExampleAuto", new ExampleCommand(driveSubsystem));
     SmartDashboard.putData(m_autoChooser);
   }

@@ -69,9 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(getGyroAngleRotation2d(),
         CowboyUtils.inchesToMeters(getLeftDistanceInch()),
         CowboyUtils.inchesToMeters(getRightDistanceInch()));
+
     AutoBuilder.configureRamsete(this::getRobotPose, this::resetOdometry, this::getChassisSpeeds,
-        this::driveChassisSpeeds, -1, 1,
-        new ReplanningConfig(true, false),
+        this::driveChassisSpeeds, 0, 1,
+        new ReplanningConfig(false, false),
         () -> false, this);
 
   }
