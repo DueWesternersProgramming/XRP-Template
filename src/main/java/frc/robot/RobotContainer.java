@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -55,11 +56,7 @@ public class RobotContainer {
 
   }
 
-  private void configureAutos() {// Setup SmartDashboard options
-    // m_chooser.setDefaultOption("Auto Routine Distance", new
-    // AutonomousDistance(m_drivetrain));
-    // m_chooser.addOption("Auto Routine Time", new
-    // AutonomousDistance(m_drivetrain));
+  private void configureAutos() {
     m_autoChooser = AutoBuilder.buildAutoChooser("Test Auto");
     m_autoChooser.addOption("ExampleAuto", new ExampleCommand(driveSubsystem));
     SmartDashboard.putData(m_autoChooser);
