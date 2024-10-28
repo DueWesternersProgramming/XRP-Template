@@ -25,14 +25,9 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.CowboyUtils;
+import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveSubsystem extends SubsystemBase {
-  private static final double kGearRatio = (30.0 / 14.0) * (28.0 / 16.0) * (36.0 / 9.0) * (26.0 / 8.0); // 48.75:1
-  private static final double kCountsPerMotorShaftRev = 12.0;
-  private static final double kCountsPerRevolution = kCountsPerMotorShaftRev * kGearRatio; // 585.0
-  private static final double kWheelDiameterInch = 2.3622; // 60 mm
-  private static final double kTrackWidthInch = 6.1; // 60 mm
-  private static final double kMaxSpeedMetersPerSecond = 0.15;
   // The XRP has the left and right motors set to
   // channels 0 and 1 respectively
   private final XRPMotor m_leftMotor = new XRPMotor(0);
@@ -49,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   private final DifferentialDrive m_diffDrive = new DifferentialDrive(m_leftMotor::set, m_rightMotor::set);
 
   private final DifferentialDriveKinematics m_kinematics = new DifferentialDriveKinematics(
-      CowboyUtils.inchesToMeters(kTrackWidthInch));
+      CowboyUtils.inchesToMeters(DriveTrainConstants.TRACK_WIDTH_INCH));
 
   private final DifferentialDriveOdometry odometry;
   private final Field2d m_field2d = new Field2d();
@@ -58,8 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new XRPDrivetrain. */
   public DriveSubsystem() {
     // Use inches as unit for encoder distances
-    m_leftEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
-    m_rightEncoder.setDistancePerPulse((Math.PI * kWheelDiameterInch) / kCountsPerRevolution);
+    m_leftEncoder.setDistancePerPulse(
+        (Math.PI * DriveTrainConstants.WHEEL_DIAMETER_INCH) / DriveTrainConstants.COUNTS_PER_REVOLUTION);
+    m_rightEncoder.setDistancePerPulse(
+        (Math.PI * DriveTrainConstants.WHEEL_DIAMETER_INCH) / DriveTrainConstants.COUNTS_PER_REVOLUTION);
     resetEncoders();
     m_gyro.reset();
 
@@ -71,7 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
         CowboyUtils.inchesToMeters(getRightDistanceInch()));
 
     AutoBuilder.configureRamsete(this::getRobotPose, this::resetOdometry, this::getChassisSpeeds,
-        this::driveChassisSpeeds, 0.55, 1,
+        this::driveChassisSpeeds, 1, .6,
         new ReplanningConfig(false, false),
         () -> false, this);
 
@@ -91,8 +88,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void arcadeDriveSpeedsMetersPerSec(double x, double rot) {
     // Convert from meters per second to percentage of max speed (-1.0 to 1.0)
-    double xPercent = x / kMaxSpeedMetersPerSecond;
-    double rotPercent = rot / kMaxSpeedMetersPerSecond;
+    double xPercent = x / DriveTrainConstants.MAX_SPEED_METERS_PER_SECOND;
+    double rotPercent = rot / DriveTrainConstants.MAX_SPEED_METERS_PER_SECOND;
 
     // Ensure the values stay within the range of -1.0 to 1.0
     xPercent = Math.max(Math.min(xPercent, 1.0), -1.0);
@@ -161,6 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_diffDrive.feed();
     SmartDashboard.putNumber("Gyro Angle", getGyroAngleDegrees());
     SmartDashboard.putData(m_field2d);
+
   }
 
   public Command resetGyroAngle() {
