@@ -2,12 +2,11 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2929288524978022,
-      "y": 2.3242283072620684
+      "x": 2.0,
+      "y": 7.0
     },
     "rotation": 0
   },
-  
   "command": {
     "type": "sequential",
     "data": {
@@ -15,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New New Path"
+            "pathName": "curve 1"
           }
         }
       ]
